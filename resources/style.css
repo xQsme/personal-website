@@ -1,0 +1,30 @@
+body{
+    background-color: rgb(50,50,50);
+}
+.mySlides {display:none}
+/* Slideshow container */
+.slideshow-container {
+    max-width: 100%;
+    margin: auto;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+    height: 13px;
+    width: 13px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0s ease;
+}
+
+.active {
+    background-color: #717171;
+}
+
+@media (min-width:1281px){
+    .slideshow-container {
+        max-width: 75%;
+    }
+}
