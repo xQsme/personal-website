@@ -1,5 +1,7 @@
 body{
     background-color: rgb(50,50,50);
+    text-align: center;
+    color:  #bbb;
 }
 .mySlides {display:none}
 /* Slideshow container */
@@ -27,19 +29,20 @@ body{
     border: 3px solid gray;
 }
 
-.vertical{
-    width: 48.3%;
+.horizontal{
+    width: 35%;
 }
 
-.horizontal{
-    width: 32%;
+.vertical{
+    width: 20%;
+}
+
+#separator{
+    margin-bottom: 1%;
 }
 
 @media (min-width:1281px){
     .slideshow-container {
         max-width: 75%;
-    }
-    .vertical{
-        width: 15.1%;
     }
 }
