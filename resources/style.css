@@ -33,6 +33,10 @@ body{
     width: 75%;
 }
 
+ul{
+    margin-left: -10px;
+}
+
 .vertical{
     width: 35%;
 }
@@ -43,6 +47,10 @@ body{
 
 #separator{
     margin-bottom: 0;
+}
+
+#me{
+    text-align: center;
 }
 
 @media (min-width:1281px){
@@ -60,5 +68,13 @@ body{
     
     #separator{
         margin-bottom: 10px;
+    }
+
+    ul{
+        margin-left: 0;
+    }
+
+    #me{
+        text-align: right;
     }
 }
