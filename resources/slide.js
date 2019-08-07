@@ -1,6 +1,9 @@
 var slideIndex = 0;
+var playing = true;
+var timeout;
 showSlides();
-function showSlides() {
+function showSlides()
+{
     var i;
     var slides = document.getElementsByClassName("mySlides");
     var dots = document.getElementsByClassName("dot");
@@ -14,5 +17,28 @@ function showSlides() {
     }
     slides[slideIndex-1].style.display = "block";
     dots[slideIndex-1].className += " active";
-    setTimeout(showSlides, 3000); // Change image every 3 seconds
+    if(playing)
+    {
+        timeout=setTimeout(showSlides, 3000); // Change image every 3 seconds
+    }
+}
+function clickDot(i)
+{
+    slideIndex=i;
+    clearTimeout(timeout);
+    showSlides();
+}
+function playPause()
+{
+    let old=playing;
+    playing=!playing;
+    if(old)
+    {
+        clearTimeout(timeout);
+    }
+    else
+    {
+        showSlides();
+    }
+
 }
