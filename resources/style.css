@@ -57,6 +57,11 @@ ul{
     text-decoration: underline;
 }
 
+.click:active {
+    box-shadow: 0px 0px 5px #fff;
+    border-radius:30px;
+}
+
 @media (min-width:1281px){
     .slideshow-container {
         max-width: 75%;
