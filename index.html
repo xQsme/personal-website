@@ -8,13 +8,31 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css?family=Exo+2&display=swap" rel="stylesheet"> 
   <link href="resources/bootstrap.min.css" rel="stylesheet">
   <link href="resources/style.css" rel="stylesheet">
   <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
 </head>
 <body>
-    <div data-include="nav.html"></div>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="./">
+                <img src="images/logo.png" style="max-width: 30px">
+                xQsme
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+                    <li><a class="nav-link" href="bio.html">Bio</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="slideshow-container">
         <div class="mySlides">
             <img id="image" src="images/arch.jpg" style="width:100%">
@@ -70,7 +88,6 @@
     </div>
 </body>
 </html>
-<script type="text/javascript" src="resources/csi.min.js"></script>
 <script type="text/javascript" src="resources/slide.js"></script>
 <script type="text/javascript" src="resources/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="resources/bootstrap.bundle.min.js"></script>

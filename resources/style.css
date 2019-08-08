@@ -53,6 +53,10 @@ ul{
     text-align: center;
 }
 
+.selected{
+    text-decoration: underline;
+}
+
 @media (min-width:1281px){
     .slideshow-container {
         max-width: 75%;
