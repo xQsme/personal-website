@@ -12,7 +12,7 @@
   <link href="resources/style.css" rel="stylesheet">
   <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
 </head>
-<body>
+<body onkeydown="switchSlide(event)">
     <nav class="navbar navbar-expand-md bg-dark navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="./" style="color: #bbb;">
@@ -34,6 +34,9 @@
         </div>
     </nav>
     <div class="slideshow-container">
+        <div class="mySlides">
+            <img id="image" src="images/setup.jpg" style="width:100%">
+        </div>
         <div class="mySlides">
             <img id="image" src="images/arch.jpg" style="width:100%">
         </div>
@@ -66,9 +69,6 @@
         </div>
         <div class="mySlides">
             <img id="image" src="images/discord.jpg" style="width:100%">
-        </div>
-        <div class="mySlides">
-            <img id="image" src="images/setup.jpg" style="width:100%">
         </div>
     </div>
     <br>

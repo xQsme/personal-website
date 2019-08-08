@@ -12,6 +12,7 @@ function showSlides()
     }
     slideIndex++;
     if (slideIndex> slides.length) {slideIndex = 1}
+    if (slideIndex < 1) {slideIndex = slides.length}
     for (i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" active", "");
     }
@@ -19,7 +20,7 @@ function showSlides()
     dots[slideIndex-1].className += " active";
     if(playing)
     {
-        timeout=setTimeout(showSlides, 3000); // Change image every 3 seconds
+        timeout=setTimeout(showSlides, 4000); // Change image every 3 seconds
     }
 }
 function clickDot(i)
@@ -40,5 +41,19 @@ function playPause()
     {
         showSlides();
     }
-
+}
+function switchSlide(event)
+{
+    switch(event.keyCode)
+    {
+        case 37:
+            slideIndex-=2;
+            clearTimeout(timeout);
+            showSlides(); 
+        break;
+        case 39:
+            clearTimeout(timeout);
+            showSlides(); 
+        break;
+    }
 }
