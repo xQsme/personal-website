@@ -17,19 +17,34 @@ let y=36;
 let vx=1;
 let vy=-1;
 let tiles={};
+let cheat = false;
 window.onload = function() {
-    window.addEventListener("resize", resize);
-    window.addEventListener("keydown", changeDirection);
-    window.addEventListener("keyup", stopMoving);
-    window.addEventListener("mousedown", startMouse);
-    window.addEventListener("mouseup", endMouse);
-    window.addEventListener("mousemove", mousePosition);
-    window.addEventListener("touchstart", startMouse);
-    window.addEventListener("touchend", endMouse);
-    window.addEventListener("touchmove", mousePosition);
     scoreLabel=document.getElementById("score");
     canvas = document.getElementById("game");
     context= canvas.getContext("2d");
+    window.addEventListener("resize", resize);
+    window.addEventListener("keydown", changeDirection);
+    window.addEventListener("keyup", stopMoving);
+    canvas.addEventListener("mousedown", startMouse);
+    canvas.addEventListener("mouseup", endMouse);
+    canvas.addEventListener("mousemove", mousePosition);
+    canvas.addEventListener("touchstart", startMouse);
+    canvas.addEventListener("touchend", endMouse);
+    canvas.addEventListener("touchmove", mousePosition);
+    document.getElementById("cheat").addEventListener("change", e => {
+        cheat = e.target.checked;
+        if(started && !cheat)
+        {
+            clearInterval(interval);
+            interval = setInterval(game, 50);
+        }
+        if(started && cheat)
+        {
+            clearInterval(interval);
+            interval = setInterval(game, 5);
+        }
+    });
+    cheat = document.getElementById("cheat").checked;
     populateTiles();
     resize();
 }
@@ -42,7 +57,14 @@ function startMouse()
         vx=-1;
         started=true;
         populateTiles();
-        interval = setInterval(game, 50);
+        if(cheat)
+        {
+            interval = setInterval(game, 5);
+        }
+        else
+        {
+            interval = setInterval(game, 50);
+        }
     }
 }
 function endMouse()
@@ -108,7 +130,14 @@ function changeDirection(event)
                 vx=-1;
                 started=true;
                 populateTiles();
-                interval = setInterval(game, 50);
+                if(cheat)
+                {
+                    interval = setInterval(game, 5);
+                }
+                else
+                {
+                    interval = setInterval(game, 50);
+                }
             }
         break;
         case 39:
@@ -118,7 +147,14 @@ function changeDirection(event)
                 vx=1;
                 started=true;
                 populateTiles();
-                interval = setInterval(game, 50);
+                if(cheat)
+                {
+                    interval = setInterval(game, 5);
+                }
+                else
+                {
+                    interval = setInterval(game, 50);
+                }
             }
         break;
     }
@@ -191,8 +227,15 @@ function game()
     }
     if(y == 40)
     {
-        endGame();
-        return;
+        if(cheat)
+        {
+            vy=-1;
+        }
+        else
+        {
+            endGame();
+            return;
+        }
     }
     if(y < 1)
     {
@@ -207,8 +250,13 @@ function game()
             if(tiles[y][j] - 2 <= x && tiles[y][j] + 2 >= x)
             {
                 score++;
+                if((tiles[y][j] - 2 == x && vx > 0) || (tiles[y][j] + 2 == x && vx < 0))
+                {
+                    vx = 0 - vx;
+                }
                 tiles[y].splice(j, 1);
-                vy = vy == 1 ? -1 : 1;
+                vy = 0 - vy;
+    
                 if(checkLevelPassed())
                 {
                     return;
@@ -246,7 +294,7 @@ function checkLevelPassed()
             scoreLabel.innerHTML = "Level " + level + ", Score " + score;
             position = 25;
             x=25;
-            y=46;
+            y=36;
             vx=1;
             vy=-1;
             populateTiles();
