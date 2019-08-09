@@ -14,7 +14,7 @@ let keyleft = false;
 let keyright = false;
 let x=25;
 let y=36;
-let vx=1;
+let vx=1/2;
 let vy=-1/2;
 let tiles={};
 let cheat = false;
@@ -129,7 +129,7 @@ function changeDirection(event)
             keyleft=true;
             if(!started && !done)
             {
-                vx=-1;
+                vx=-1/2;
                 started=true;
                 populateTiles();
                 if(cheat)
@@ -146,7 +146,7 @@ function changeDirection(event)
             keyright=true;
             if(!started && !done)
             {
-                vx=1;
+                vx=1/2;
                 started=true;
                 populateTiles();
                 if(cheat)
@@ -212,13 +212,20 @@ function game()
             {
                 vx=1;
             }
-            else if(x <= position + 2 && x >= position + 1)
+            else if(x <= position + 2 && x >= position + 0.5)
             {
                 vx=1/2;
             }
             else
             {
-                vx=0;
+                if(cheat)
+                {
+                    vx=1/2;
+                }
+                else
+                {
+                    vx=0;
+                }
             }
         }
         if(x >= position - 3 && x <= position)
@@ -227,13 +234,20 @@ function game()
             {
                 vx=-1;
             }
-            else if(x >= position - 2 && x <= position - 1)
+            else if(x >= position - 2 && x <= position - 0.5)
             {
                 vx=-1/2;
             }
             else
             {
-                vx=0;
+                if(cheat)
+                {
+                    vx = -1/2;
+                }
+                else
+                {
+                    vx=0;
+                }
             }
         }
     }
