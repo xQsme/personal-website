@@ -75,6 +75,10 @@ a:hover {
     color: orangered;
 }
 
+canvas {
+    background-color: #aaa;
+}
+
 @media (min-width:1281px){
     .slideshow-container {
         margin-top: 20px;

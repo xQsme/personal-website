@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>xQsme</title>
+  <meta name="description" content="xQsme's Portfolio">
+  <meta name="author" content="xQsme">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="resources/bootstrap.min.css" rel="stylesheet">
+  <link href="resources/style.css" rel="stylesheet">
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+</head>
+<body>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="./" style="color: #bbb;">
+                <img src="images/logo.png" style="max-width: 30px">
+                xQsme
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li><a class="nav-link selected" href="game.html">Game</a></li>
+                    <li><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+                    <li><a class="nav-link" href="bio.html">Bio</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h3 id="score">Level: 0</h3>
+    <canvas id="game" width="300" height="300"></canvas>
+</body>
+</html>
+<script type="text/javascript" src="resources/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="resources/bootstrap.bundle.min.js"></script>
+<script>
+    let canvas;
+    let context;
+    let level = 0;
+    let scoreLabel;
+    let started = false;
+    let position = 20;
+    let width;
+    let height;
+    let keyleft = false;
+    let keyright = false;
+    window.onload = function() {
+        window.addEventListener("resize", resize);
+        window.addEventListener("keydown", changeDirection);
+        window.addEventListener("keyup", stopMoving);
+        scoreLabel=document.getElementById("score");
+        canvas = document.getElementById("game");
+        context= canvas.getContext("2d");
+        resize();
+    }
+    function resize()
+    {
+        width = window.innerWidth;
+        height = window.innerHeight - 104;
+        canvas.width = width;
+        canvas.height = height;
+        redraw();
+    }
+    function changeDirection(event)
+    {
+        switch(event.keyCode)
+        {
+            case 37:
+                keyleft=true;
+                if(!started)
+                {
+                    started=true;
+                    setInterval(game, 50);
+                }
+            break;
+            case 39:
+                keyright=true;
+                if(!started)
+                {
+                    started=true;
+                    setInterval(game, 50);
+                }
+            break;
+        }
+    }
+    function stopMoving(event)
+    {
+        switch(event.keyCode)
+        {
+            case 37:
+                keyleft=false;
+            break;
+            case 39:
+                keyright=false;
+            break;
+        }
+    }
+    function game()
+    {
+        if(keyleft)
+        {
+            position--;
+        }
+        if(keyright)
+        {
+            position++;
+        }
+        if(position > 38)
+        {
+            position = 38;
+        }
+        if(position < 2)
+        {
+            position=2;
+        }
+        redraw();
+    }
+    function redraw()
+    {
+        scoreLabel.innerHTML= "Level: " + level;
+        context.fillStyle = "#323232";
+        context.fillRect(0,0, width, height);
+        context.fillStyle = "orangered";
+        context.fillRect(width/40*position-width/20, height/40*37, width/10, height/25); 
+
+    }
+</script>
