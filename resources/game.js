@@ -261,6 +261,7 @@ function endGame()
     clearInterval(interval);
     scoreLabel.innerHTML = "Game Over, Score: " + score;
     level = 0;
+    score = 0;
     x=25;
     y=36;
     vx=1;
