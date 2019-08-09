@@ -55,7 +55,7 @@ function mouseFunction()
 }
 function mousePosition(event)
 {
-    if(event.changedTouches[0] != undefined)
+    if(event.changedTouches != undefined)
     {
         mouseX = event.changedTouches[0].clientX;
     }
