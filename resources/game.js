@@ -56,7 +56,7 @@ function startMouse()
     mouseInterval=setInterval(mouseFunction, 50);
     if(!started && !done)
     {
-        vx=-1;
+        vx=-1/2;
         started=true;
         populateTiles();
         if(cheat)
