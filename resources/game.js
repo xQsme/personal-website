@@ -89,7 +89,7 @@ function mousePosition(event)
 function resize()
 {
     width = window.innerWidth;
-    height = window.innerHeight - 104;
+    height = window.innerHeight - 103;
     canvas.width = width;
     canvas.height = height;
     redraw();
