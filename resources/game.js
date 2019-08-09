@@ -15,9 +15,11 @@ let keyright = false;
 let x=25;
 let y=36;
 let vx=1;
-let vy=-1;
+let vy=-1/2;
 let tiles={};
 let cheat = false;
+let done = false;
+let message = "Level: " + level + ", Score: " + score;
 window.onload = function() {
     scoreLabel=document.getElementById("score");
     canvas = document.getElementById("game");
@@ -36,12 +38,12 @@ window.onload = function() {
         if(started && !cheat)
         {
             clearInterval(interval);
-            interval = setInterval(game, 50);
+            interval = setInterval(game, 25);
         }
         if(started && cheat)
         {
             clearInterval(interval);
-            interval = setInterval(game, 5);
+            interval = setInterval(game, 2);
         }
     });
     cheat = document.getElementById("cheat").checked;
@@ -52,18 +54,18 @@ function startMouse()
 {
     mouseFunction();
     mouseInterval=setInterval(mouseFunction, 50);
-    if(!started)
+    if(!started && !done)
     {
         vx=-1;
         started=true;
         populateTiles();
         if(cheat)
         {
-            interval = setInterval(game, 5);
+            interval = setInterval(game, 2);
         }
         else
         {
-            interval = setInterval(game, 50);
+            interval = setInterval(game, 25);
         }
     }
 }
@@ -125,35 +127,35 @@ function changeDirection(event)
     {
         case 37:
             keyleft=true;
-            if(!started)
+            if(!started && !done)
             {
                 vx=-1;
                 started=true;
                 populateTiles();
                 if(cheat)
                 {
-                    interval = setInterval(game, 5);
+                    interval = setInterval(game, 2);
                 }
                 else
                 {
-                    interval = setInterval(game, 50);
+                    interval = setInterval(game, 25);
                 }
             }
         break;
         case 39:
             keyright=true;
-            if(!started)
+            if(!started && !done)
             {
                 vx=1;
                 started=true;
                 populateTiles();
                 if(cheat)
                 {
-                    interval = setInterval(game, 5);
+                    interval = setInterval(game, 2);
                 }
                 else
                 {
-                    interval = setInterval(game, 50);
+                    interval = setInterval(game, 25);
                 }
             }
         break;
@@ -203,33 +205,43 @@ function game()
     if(y == 37 && (x <= position + 3 && x >= position - 3))
     {
         y = 35;
-        vy = -1;
+        vy = -1/2;
         if(x <= position + 3 && x > position)
         {
-            if(x == position + 3)
+            if(x <= position + 3 && x > position + 2)
             {
                 vx=1;
             }
-            else if(x == position +2)
+            else if(x <= position + 2 && x >= position + 1)
             {
                 vx=1/2;
             }
             else
             {
-                vx=1/3;
+                vx=0;
             }
-
         }
-        if(x >= position - 3 && x < position)
+        if(x >= position - 3 && x <= position)
         {
-            vx=-1;
+            if(x >= position - 3 && x < position - 2)
+            {
+                vx=-1;
+            }
+            else if(x >= position - 2 && x <= position - 1)
+            {
+                vx=-1/2;
+            }
+            else
+            {
+                vx=0;
+            }
         }
     }
     if(y == 40)
     {
         if(cheat)
         {
-            vy=-1;
+            vy=-1/2;
         }
         else
         {
@@ -237,21 +249,23 @@ function game()
             return;
         }
     }
-    if(y < 1)
+    if(y <= 0)
     {
         y = 0;
-        vy = 1;
+        vy = 1/2;
     }
     x+=vx;
     if(tiles[y] != undefined)
     {
         for(let j=0; j<tiles[y].length; j++)
         {
-            if(tiles[y][j] - 2 <= x && tiles[y][j] + 2 >= x)
+            if(tiles[y][j] - 1.5 <= x && tiles[y][j] + 1.5 >= x)
             {
                 score++;
-                if((tiles[y][j] - 2 == x && vx > 0) || (tiles[y][j] + 2 == x && vx < 0))
+                message = "Level: " + level + ", Score: " + score;
+                if((tiles[y][j] - 2 <= x && tiles[y][j] - 1 > x && vx > 0) || (tiles[y][j] + 2 >= x && tiles[y][j] + 1 < x && vx < 0))
                 {
+                    console.log("x:" + x + ", pos(" + (tiles[y][j] - 2) + "-" + (tiles[y][j] - 1) + ")");
                     vx = 0 - vx;
                 }
                 tiles[y].splice(j, 1);
@@ -285,13 +299,15 @@ function checkLevelPassed()
         if(level == 10)
         {
             redraw();
-            scoreLabel.innerHTML = "You Win, Score:" + score;
+            message = "You Win, Score:" + score;
+            scoreLabel.innerHTML = message;
+            done = true;
             return true;
         }
         else
         {
             level++;
-            scoreLabel.innerHTML = "Level " + level + ", Score " + score;
+            message = "Level: " + level + ", Score: " + score;
             position = 25;
             x=25;
             y=36;
@@ -307,7 +323,8 @@ function endGame()
 {
     started = false;
     clearInterval(interval);
-    scoreLabel.innerHTML = "Game Over, Score: " + score;
+    message = "Game Over, Score: " + score;
+    scoreLabel.innerHTML = message;
     level = 0;
     score = 0;
     x=25;
@@ -317,19 +334,19 @@ function endGame()
 }
 function redraw()
 {
-    scoreLabel.innerHTML= "Level " + level + ", Score " + score;
+    scoreLabel.innerHTML= message;
     context.fillStyle = "#323232";
     context.fillRect(0,0, width, height);
     context.fillStyle = "orangered";
     context.fillRect(width/50*position-width/25, height/40*37, width/10, height/40); 
     context.beginPath();
-    context.arc(width/50*(x+0.5), height/40*(y+0.5), width/100, 0, 2 * Math.PI);
+    context.arc(width/50*(x+0.5), height/40*(y+0.5), height/60, 0, 2 * Math.PI);
     context.fill();
     for(let i=0; i<level/2+3; i++)
     {
         for(let j=0; j<tiles[i*3].length; j++)
         {
-            context.fillRect(width/50*tiles[i*3][j], height/40*i*3, width/50*3, height/40);
+            context.fillRect(width/50*(tiles[i*3][j]-1), height/40*i*3, width/50*3, height/40);
         }
     }
 
