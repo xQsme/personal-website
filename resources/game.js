@@ -19,6 +19,8 @@ let vy=-1/2;
 let tiles={};
 let cheat = false;
 let done = false;
+let platformWidth = 3;
+let tileWidth = 2;
 let message = "Level: " + level + ", Score: " + score;
 window.onload = function() {
     scoreLabel=document.getElementById("score");
@@ -104,7 +106,7 @@ function populateTiles()
         tiles[i*3]=[];
         if(level%2 == 0 && i%2==1)
         {
-            for(let j=7; j < 47; j+=5)
+            for(let j=5.5; j < 47; j+=3+tileWidth*2)
             {
     
                 tiles[i*3].push(j);
@@ -112,7 +114,7 @@ function populateTiles()
         }
         else
         {
-            for(let j=4; j < 49; j+=5)
+            for(let j=2.5; j < 49; j+=3+tileWidth*2)
             {
     
                 tiles[i*3].push(j);
@@ -202,17 +204,17 @@ function game()
         x = 49
         vx = 0-vx;
     }
-    if(y == 37 && (x <= position + 3 && x >= position - 3))
+    if(y == 37 && (x <= position + platformWidth + 1 && x >= position - platformWidth -1) && vy > 0)
     {
         y = 35;
         vy = -1/2;
-        if(x <= position + 3 && x > position)
+        if(x <= position + platformWidth +1  && x > position)
         {
-            if(x <= position + 3 && x > position + 2)
+            if(x <= position + platformWidth + 1 && x > position + platformWidth)
             {
                 vx=1;
             }
-            else if(x <= position + 2 && x >= position + 0.5)
+            else if(x <= position + platformWidth && x >= position + 0.5)
             {
                 vx=1/2;
             }
@@ -228,13 +230,13 @@ function game()
                 }
             }
         }
-        if(x >= position - 3 && x <= position)
+        if(x >= position - platformWidth - 1 && x <= position)
         {
-            if(x >= position - 3 && x < position - 2)
+            if(x >= position - platformWidth - 1 && x < position - platformWidth)
             {
                 vx=-1;
             }
-            else if(x >= position - 2 && x <= position - 0.5)
+            else if(x >= position - platformWidth && x <= position - 0.5)
             {
                 vx=-1/2;
             }
@@ -273,18 +275,16 @@ function game()
     {
         for(let j=0; j<tiles[y].length; j++)
         {
-            if(tiles[y][j] - 1.5 <= x && tiles[y][j] + 1.5 >= x)
+            if(tiles[y][j] - tileWidth - 0.5 <= x && tiles[y][j] + tileWidth + 0.5 >= x)
             {
                 score++;
                 message = "Level: " + level + ", Score: " + score;
-                if((tiles[y][j] - 2 <= x && tiles[y][j] - 1 > x && vx > 0) || (tiles[y][j] + 2 >= x && tiles[y][j] + 1 < x && vx < 0))
+                if((tiles[y][j] - tileWidth - 1 <= x && tiles[y][j] - tileWidth > x && vx > 0) || (tiles[y][j] + tileWidth + 1 >= x && tiles[y][j] + tileWidth < x && vx < 0))
                 {
-                    console.log("x:" + x + ", pos(" + (tiles[y][j] - 2) + "-" + (tiles[y][j] - 1) + ")");
                     vx = 0 - vx;
                 }
                 tiles[y].splice(j, 1);
                 vy = 0 - vy;
-    
                 if(checkLevelPassed())
                 {
                     return;
@@ -352,7 +352,7 @@ function redraw()
     context.fillStyle = "#323232";
     context.fillRect(0,0, width, height);
     context.fillStyle = "orangered";
-    context.fillRect(width/50*position-width/25, height/40*37, width/10, height/40); 
+    context.fillRect(width/50*position-platformWidth*width/50, height/40*37, width/50*(1+platformWidth*2), height/40); 
     context.beginPath();
     context.arc(width/50*(x+0.5), height/40*(y+0.5), height/60, 0, 2 * Math.PI);
     context.fill();
@@ -360,7 +360,7 @@ function redraw()
     {
         for(let j=0; j<tiles[i*3].length; j++)
         {
-            context.fillRect(width/50*(tiles[i*3][j]-1), height/40*i*3, width/50*3, height/40);
+            context.fillRect(width/50*(tiles[i*3][j]-1), height/40*i*3, width/50*(1+tileWidth*2), height/40);
         }
     }
 
