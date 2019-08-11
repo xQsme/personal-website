@@ -55,7 +55,7 @@ window.onload = function() {
 function startMouse()
 {
     mouseFunction();
-    mouseInterval=setInterval(mouseFunction, 50);
+    mouseInterval=setInterval(mouseFunction, 25);
     if(!started && !done)
     {
         vx=-1/2;
@@ -204,19 +204,17 @@ function game()
         x = 49
         vx = 0-vx;
     }
-    let ignoreX = false;
-    if(y == 36 && (x <= position + platformWidth + 1 && x >= position - platformWidth -1) && vy > 0)
+    if(y == 37 && (x <= position + platformWidth + 0.5 && x >= position - platformWidth - 0.5) && vy > 0)
     {
-        ignoreX = true;
-        x+=vx;
         vy = -1/2;
-        if(x <= position + platformWidth +1  && x > position)
+        y+=vy*2;
+        if(x <= position + platformWidth + 0.5  && x > position)
         {
-            if(x <= position + platformWidth + 1 && x > position + platformWidth)
+            if(x <= position + platformWidth + 0.5 && x >= position + platformWidth - 0.5)
             {
                 vx=1;
             }
-            else if(x <= position + platformWidth && x >= position + 0.5)
+            else if(x <= position + platformWidth - 0.5 && x > position + 0.5)
             {
                 vx=1/2;
             }
@@ -232,13 +230,13 @@ function game()
                 }
             }
         }
-        if(x >= position - platformWidth - 1 && x <= position)
+        if(x >= position - platformWidth - 0.5 && x <= position)
         {
-            if(x >= position - platformWidth - 1 && x < position - platformWidth)
+            if(x >= position - platformWidth - 0.5 && x <= position - platformWidth + 0.5)
             {
                 vx=-1;
             }
-            else if(x >= position - platformWidth && x <= position - 0.5)
+            else if(x >= position - platformWidth + 0.5 && x < position - 0.5)
             {
                 vx=-1/2;
             }
@@ -272,19 +270,16 @@ function game()
         y = 0;
         vy = 1/2;
     }
-    if(!ignoreX)
-    {
-        x+=vx;
-    }
+    x+=vx;
     if(tiles[y] != undefined)
     {
         for(let j=0; j<tiles[y].length; j++)
         {
-            if(tiles[y][j] - tileWidth - 0.5 <= x && tiles[y][j] + tileWidth + 0.5 >= x)
+            if(tiles[y][j] - tileWidth + 0.5  <= x && tiles[y][j] + tileWidth + 1.5 >= x)
             {
                 score++;
                 message = "Level: " + level + ", Score: " + score;
-                if((tiles[y][j] - tileWidth - 1 <= x && tiles[y][j] - tileWidth > x && vx > 0) || (tiles[y][j] + tileWidth + 1 >= x && tiles[y][j] + tileWidth < x && vx < 0))
+                if((tiles[y][j] - tileWidth + 0.5 <= x && tiles[y][j] - tileWidth + 1.5 > x && vx >= 0) || (tiles[y][j] + tileWidth + 1.5 >= x && tiles[y][j] + tileWidth + 0.5 < x && vx <= 0))
                 {
                     vx = 0 - vx;
                 }
