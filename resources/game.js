@@ -140,7 +140,7 @@ function changeDirection(event)
                 }
                 else
                 {
-                    interval = setInterval(game, 125);
+                    interval = setInterval(game, 25);
                 }
             }
         break;
