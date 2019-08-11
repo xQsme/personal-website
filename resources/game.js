@@ -140,7 +140,7 @@ function changeDirection(event)
                 }
                 else
                 {
-                    interval = setInterval(game, 25);
+                    interval = setInterval(game, 75);
                 }
             }
         break;
@@ -204,8 +204,11 @@ function game()
         x = 49
         vx = 0-vx;
     }
+    let ignoreX = false;
     if(y == 36 && (x <= position + platformWidth + 1 && x >= position - platformWidth -1) && vy > 0)
     {
+        ignoreX = true;
+        x+=vx;
         vy = -1/2;
         if(x <= position + platformWidth +1  && x > position)
         {
@@ -269,7 +272,10 @@ function game()
         y = 0;
         vy = 1/2;
     }
-    x+=vx;
+    if(!ignoreX)
+    {
+        x+=vx;
+    }
     if(tiles[y] != undefined)
     {
         for(let j=0; j<tiles[y].length; j++)
