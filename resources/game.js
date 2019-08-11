@@ -140,7 +140,7 @@ function changeDirection(event)
                 }
                 else
                 {
-                    interval = setInterval(game, 25);
+                    interval = setInterval(game, 125);
                 }
             }
         break;
@@ -204,9 +204,8 @@ function game()
         x = 49
         vx = 0-vx;
     }
-    if(y == 37 && (x <= position + platformWidth + 1 && x >= position - platformWidth -1) && vy > 0)
+    if(y == 36 && (x <= position + platformWidth + 1 && x >= position - platformWidth -1) && vy > 0)
     {
-        y = 35;
         vy = -1/2;
         if(x <= position + platformWidth +1  && x > position)
         {
@@ -284,6 +283,7 @@ function game()
                     vx = 0 - vx;
                 }
                 tiles[y].splice(j, 1);
+                y-=2*vy;
                 vy = 0 - vy;
                 if(checkLevelPassed())
                 {
