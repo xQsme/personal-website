@@ -314,6 +314,7 @@ function game()
             powers[i].y+=1/4;
             if(powers[i].y == 37 && powers[i].x <= position + platformWidth + 0.5 && powers[i].x >= position - platformWidth - 0.5)
             {
+                powers.splice(i, 1);
                 power = true;
                 clearTimeout(powerTimeout);
                 powerTimeout = setTimeout(endPower, 10000);
