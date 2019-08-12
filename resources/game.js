@@ -407,6 +407,7 @@ function checkLevelPassed()
             vx=1;
             vy=-1;
             powers = [];
+            pewpew = [];
             power = false;
             everStarted = false;
             populateTiles();
@@ -418,7 +419,9 @@ function checkLevelPassed()
 function endGame()
 {
     started = false;
+    power = false;
     powers = [];
+    pewpew = [];
     clearInterval(interval);
     message = "Game Over, Score: " + score;
     scoreLabel.innerHTML = message;
