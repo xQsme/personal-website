@@ -194,13 +194,13 @@ function game()
     {
         position++;
     }
-    if(position > 48)
+    if(position > 49-platformWidth)
     {
-        position = 48;
+        position = 49-platformWidth;
     }
-    if(position < 2)
+    if(position < platformWidth)
     {
-        position=2;
+        position=platformWidth;
     }
     y+=vy;
     if(x <= 0)
@@ -352,6 +352,7 @@ function game()
                     {
                         powers.push({x: tiles[pewpew[i].y][j].x+tileWidth-1, y: pewpew[i].y});
                     }
+                    score++;
                     tiles[pewpew[i].y].splice(j, 1);
                     pewpew.splice(i, 1);
                     spliced = true;
