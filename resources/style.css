@@ -79,7 +79,32 @@ canvas {
     background-color: #aaa;
 }
 
+#cheats{
+    margin-top:30px;
+}
+
+#score{
+    margin-top: -45px;
+}
+
+#game{
+    margin-top: 20px;
+}
+
+@media (min-width:440px){
+    #cheats{
+        margin-top: 10px; 
+    }
+    #score{
+        margin-top: -25px;
+    }
+    #game{
+        margin-top:0;
+    }
+}
+
 @media (min-width:1281px){
+
     .slideshow-container {
         margin-top: 20px;
         max-width: 65%;

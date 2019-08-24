@@ -12,27 +12,26 @@ let width;
 let height;
 let keyleft = false;
 let keyright = false;
-let x=25;
-let y=36;
-let vx=1/2;
-let vy=-1/2;
-let tiles={};
+let x = 25;
+let y = 36;
+let vx = 1/2;
+let vy = -1/2;
+let tiles = {};
 let cheat = false;
 let done = false;
-let everStarted=false;
+let everStarted = false;
 let platformWidth = 3;
 let tileWidth = 2;
-let message = "Level: " + level + ", Score: " + score;
 let startTime;
 let power = false;
 let powers = [];
 let pewpew = [];
 let powerTimeout;
-let powerCount=0;
+let powerCount = 0;
 window.onload = function() {
-    scoreLabel=document.getElementById("score");
+    scoreLabel = document.getElementById("score");
     canvas = document.getElementById("game");
-    context= canvas.getContext("2d");
+    context = canvas.getContext("2d");
     window.addEventListener("resize", resize);
     window.addEventListener("keydown", changeDirection);
     window.addEventListener("keyup", stopMoving);
@@ -65,7 +64,7 @@ function startGame()
     {
         populateTiles();
     }
-    everStarted=true;
+    everStarted = true;
     if(level == 0)
     {
         startTime = new Date();
@@ -82,11 +81,11 @@ function startGame()
 function startMouse()
 {
     mouseFunction();
-    mouseInterval=setInterval(mouseFunction, 25);
+    mouseInterval = setInterval(mouseFunction, 25);
     if(!started && !done)
     {
-        vx=-1/2;
-        started=true;
+        vx = -1/2;
+        started = true;
         startGame();
     }
 }
@@ -112,37 +111,37 @@ function mousePosition(event)
 function resize()
 {
     width = window.innerWidth;
-    height = window.innerHeight - 105;
+    height = window.innerHeight - (width < 550 ? 125 : 105);
     canvas.width = width;
     canvas.height = height;
     redraw();
 }
 function populateTiles()
 {
-    tiles={};
+    tiles = {};
     let power1 = Math.floor(Math.random() * (level/2+3)*6.5);
     let power2;
     do
     {
         power2 = Math.floor(Math.random() * (level/2+3)*6.5); 
     }while(power2 == power1)
-    let p=0;
-    for(let i=0; i<level/2+3; i++)
+    let p = 0;
+    for(let i = 0; i<level/2+3; i++)
     {
-        tiles[i*3]=[];
+        tiles[i*3] = [];
         if(level%2 == 0 && i%2==1)
         {
-            for(let j=5.5; j < 47; j+=3+tileWidth*2)
+            for(let j = 5.5; j < 47; j+=3+tileWidth*2)
             {
-                tiles[i*3].push({x: j, power: p==power1 || p==power2});
+                tiles[i*3].push({x: j, power: p == power1 || p == power2});
                 p++;
             }
         }
         else
         {
-            for(let j=2.5; j < 49; j+=3+tileWidth*2)
+            for(let j = 2.5; j < 49; j+=3+tileWidth*2)
             {
-                tiles[i*3].push({x: j, power: p==power1 || p==power2});
+                tiles[i*3].push({x: j, power: p == power1 || p == power2});
                 p++;
             }
         }
@@ -153,20 +152,20 @@ function changeDirection(event)
     switch(event.keyCode)
     {
         case 37:
-            keyleft=true;
+            keyleft = true;
             if(!started && !done)
             {
-                vx=-1/2;
-                started=true;
+                vx = -1/2;
+                started = true;
                 startGame();
             }
         break;
         case 39:
-            keyright=true;
+            keyright = true;
             if(!started && !done)
             {
-                vx=1/2;
-                started=true;
+                vx = 1/2;
+                started = true;
                 startGame();
             }
         break;
@@ -177,10 +176,10 @@ function stopMoving(event)
     switch(event.keyCode)
     {
         case 37:
-            keyleft=false;
+            keyleft = false;
         break;
         case 39:
-            keyright=false;
+            keyright = false;
         break;
     }
 }
@@ -200,7 +199,7 @@ function game()
     }
     if(position < platformWidth)
     {
-        position=platformWidth;
+        position = platformWidth;
     }
     y+=vy;
     if(x <= 0)
@@ -216,26 +215,26 @@ function game()
     if(y == 37 && x <= position + platformWidth + 0.5 && x >= position - platformWidth - 0.5 && vy > 0)
     {
         vy = -1/2;
-        y+=vy*2;
+        y+= vy*2;
         if(x <= position + platformWidth + 0.5  && x > position)
         {
             if(x <= position + platformWidth + 0.5 && x >= position + platformWidth - 0.5)
             {
-                vx=1;
+                vx = 1;
             }
             else if(x <= position + platformWidth - 0.5 && x > position + 0.5)
             {
-                vx=1/2;
+                vx = 1/2;
             }
             else
             {
                 if(cheat)
                 {
-                    vx=1/2;
+                    vx = 1/2;
                 }
                 else
                 {
-                    vx=0;
+                    vx = 0;
                 }
             }
         }
@@ -243,11 +242,11 @@ function game()
         {
             if(x >= position - platformWidth - 0.5 && x <= position - platformWidth + 0.5)
             {
-                vx=-1;
+                vx = -1;
             }
             else if(x >= position - platformWidth + 0.5 && x < position - 0.5)
             {
-                vx=-1/2;
+                vx = -1/2;
             }
             else
             {
@@ -257,7 +256,7 @@ function game()
                 }
                 else
                 {
-                    vx=0;
+                    vx = 0;
                 }
             }
         }
@@ -266,7 +265,7 @@ function game()
     {
         if(cheat)
         {
-            vy=-1/2;
+            vy = -1/2;
         }
         else
         {
@@ -282,12 +281,11 @@ function game()
     x+=vx;
     if(tiles[y] != undefined)
     {
-        for(let j=0; j<tiles[y].length; j++)
+        for(let j = 0; j<tiles[y].length; j++)
         {
             if(tiles[y][j].x - tileWidth + 0.5  <= x && tiles[y][j].x + tileWidth + 1.5 >= x)
             {
                 score++;
-                message = "Level: " + level + ", Score: " + score;
                 if((tiles[y][j].x - tileWidth + 0.5 <= x && tiles[y][j].x - tileWidth + 1.5 > x && vx >= 0) || (tiles[y][j].x + tileWidth + 1.5 >= x && tiles[y][j].x + tileWidth + 0.5 < x && vx <= 0))
                 {
                     vx = 0 - vx;
@@ -298,7 +296,7 @@ function game()
                 }
                 tiles[y].splice(j, 1);
                 y-=2*vy;
-                vy = 0 - vy;
+                vy=0-vy;
                 if(checkLevelPassed())
                 {
                     return;
@@ -309,17 +307,20 @@ function game()
     }
     if(powers.length > 0)
     {
-        for(let i = 0; i<powers.length; i++)
+        let spliced;
+        for(let i = 0; i < powers.length; i++)
         {
+            spliced=false;
             powers[i].y+=1/4;
             if(powers[i].y == 37 && powers[i].x <= position + platformWidth + 0.5 && powers[i].x >= position - platformWidth - 0.5)
             {
                 powers.splice(i, 1);
+                spliced=true;
                 power = true;
                 clearTimeout(powerTimeout);
                 powerTimeout = setTimeout(endPower, 10000);
             }
-            if(powers[i].y > 40)
+            if(!spliced && powers[i].y > 40)
             {
                 powers.splice(i, 1);
             }
@@ -344,7 +345,7 @@ function game()
         pewpew[i].y--;
         if(tiles[pewpew[i].y]!= undefined)
         {
-            for(let j=0; j<tiles[pewpew[i].y].length; j++)
+            for(let j = 0; j<tiles[pewpew[i].y].length; j++)
             {
                 if(tiles[pewpew[i].y][j].x - tileWidth + 0.5  <= pewpew[i].x && tiles[pewpew[i].y][j].x + tileWidth + 1.5 >= pewpew[i].x)
                 {
@@ -364,11 +365,7 @@ function game()
                 }
             }
         }
-        if(spliced)
-        {
-            break;
-        }
-        if(pewpew[i].y < 0)
+        if(!spliced && pewpew[i].y < 0)
         {
             pewpew.splice(i, 1);
         }
@@ -377,8 +374,8 @@ function game()
 }
 function checkLevelPassed()
 {
-    let check=true;
-    for(let i=0; i<level/2+3; i++)
+    let check = true;
+    for(let i = 0; i<level/2+3; i++)
     {
         if(tiles[i*3].length != 0)
         {
@@ -392,21 +389,18 @@ function checkLevelPassed()
         clearInterval(interval);
         if(level == 10)
         {
-            redraw();
-            message = "You Win, Score:" + score + ", Time: "  + msToTime(new Date() - startTime);
-            scoreLabel.innerHTML = message;
             done = true;
+            redraw();
             return true;
         }
         else
         {
             level++;
-            message = "Level: " + level + ", Score: " + score;
             position = 25;
-            x=25;
-            y=36;
-            vx=1;
-            vy=-1;
+            x = 25;
+            y = 36;
+            vx = 1;
+            vy = -1/2;
             powers = [];
             pewpew = [];
             power = false;
@@ -420,22 +414,23 @@ function checkLevelPassed()
 function endGame()
 {
     started = false;
+    redraw();
     power = false;
     powers = [];
     pewpew = [];
     clearInterval(interval);
-    message = "Game Over, Score: " + score;
-    scoreLabel.innerHTML = message;
     level = 0;
     score = 0;
-    x=25;
-    y=36;
-    vx=1;
-    vy=-1;
+    x = 25;
+    y = 36;
+    vx = 1;
+    vy = -1/2;
+
 }
 function redraw()
 {
-    scoreLabel.innerHTML= message;
+    scoreLabel.innerHTML = everStarted ? "Level: " + level + ", Score: " + score + ", Time: "  + msToTime(new Date() - startTime) 
+        : "Level: " + level + ", Score: " + score + ", Time: 00:00";
     context.fillStyle = "#323232";
     context.fillRect(0,0, width, height);
     if(power)
@@ -451,9 +446,9 @@ function redraw()
     context.beginPath();
     context.arc(width/50*(x+0.5), height/40*(y+0.5), height/60, 0, 2 * Math.PI);
     context.fill();
-    for(let i=0; i<level/2+3; i++)
+    for(let i = 0; i<level/2+3; i++)
     {
-        for(let j=0; j<tiles[i*3].length; j++)
+        for(let j = 0; j<tiles[i*3].length; j++)
         {
             if(tiles[i*3][j].power)
             {
@@ -488,10 +483,11 @@ function msToTime(duration) {
     let seconds = Math.floor((duration / 1000) % 60);
     let  minutes = Math.floor((duration / (1000 * 60)) % 60);
     seconds = (seconds < 10) ? "0" + seconds : seconds;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
     return minutes + ":" + seconds;
 }
 function endPower()
 {
-    powerCount=0;
-    power=false;
+    powerCount = 0;
+    power = false;
 }
