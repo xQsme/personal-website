@@ -72,7 +72,6 @@ function detectswipe(el,func) {
       swipe_det.sX = t.screenX; 
     },false);
     ele.addEventListener('touchmove',function(e){
-      e.preventDefault();
       var t = e.touches[0];
       swipe_det.eX = t.screenX;   
     },false);
