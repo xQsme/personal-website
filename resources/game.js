@@ -278,7 +278,6 @@ function game()
         y = 0;
         vy = 1/2;
     }
-    x+=vx;
     if(tiles[y] != undefined)
     {
         for(let j = 0; j<tiles[y].length; j++)
@@ -305,6 +304,7 @@ function game()
             }
         }
     }
+    x+=vx;
     if(powers.length > 0)
     {
         let spliced;
