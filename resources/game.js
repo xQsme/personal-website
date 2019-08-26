@@ -13,7 +13,7 @@ let height;
 let keyleft = false;
 let keyright = false;
 let x = 25;
-let y = 36;
+let y = 41;
 let vx = 1/2;
 let vy = -1/2;
 let tiles = {};
@@ -28,6 +28,8 @@ let powers = [];
 let pewpew = [];
 let powerTimeout;
 let powerCount = 0;
+let speedLeft = 0;
+let speedRight = 0;
 window.onload = function() {
     scoreLabel = document.getElementById("score");
     canvas = document.getElementById("game");
@@ -46,7 +48,7 @@ window.onload = function() {
         if(started && !cheat)
         {
             clearInterval(interval);
-            interval = setInterval(game, 25);
+            interval = setInterval(game, 17);
         }
         if(started && cheat)
         {
@@ -75,7 +77,7 @@ function startGame()
     }
     else
     {
-        interval = setInterval(game, 25);
+        interval = setInterval(game, 16.6);
     }
 }
 function startMouse()
@@ -177,9 +179,11 @@ function stopMoving(event)
     {
         case 37:
             keyleft = false;
+            speedLeft = 0;
         break;
         case 39:
             keyright = false;
+            speedRight = 0;
         break;
     }
 }
@@ -187,11 +191,19 @@ function game()
 {
     if(keyleft)
     {
-        position--;
+        if(speedLeft < 5)
+        {
+            speedLeft++;
+        }
+        position-=0.425 - 0.4071429*speedLeft + 0.1428571*speedLeft*speedLeft;
     }
     if(keyright)
     {
-        position++;
+        if(speedRight < 5)
+        {
+            speedRight++;
+        }
+        position+=0.425 - 0.4071429*speedRight + 0.1428571*speedRight*speedRight;
     }
     if(position > 49-platformWidth)
     {
@@ -212,7 +224,7 @@ function game()
         x = 49
         vx = 0-vx;
     }
-    if(y == 37 && x <= position + platformWidth + 0.5 && x >= position - platformWidth - 0.5 && vy > 0)
+    if(y == 42 && x <= position + platformWidth + 0.5 && x >= position - platformWidth - 0.5 && vy > 0)
     {
         vy = -1/2;
         y+= vy*2;
@@ -261,7 +273,7 @@ function game()
             }
         }
     }
-    if(y == 40)
+    if(y == 45)
     {
         if(cheat)
         {
@@ -277,6 +289,38 @@ function game()
     {
         y = 0;
         vy = 1/2;
+    }
+    let value = 0;
+    if(tiles[y] != undefined)
+    {
+        for(let j = 0; j<tiles[y].length; j++)
+        {
+            if(tiles[y][j].x - tileWidth + 0.5  <= x && tiles[y][j].x + tileWidth + 1.5 >= x)
+            {
+                score++;
+                if((tiles[y][j].x - tileWidth + 0.5 <= x && tiles[y][j].x - tileWidth + 1.5 > x && vx >= 0) || (tiles[y][j].x + tileWidth + 1.5 >= x && tiles[y][j].x + tileWidth + 0.5 < x && vx <= 0))
+                {
+                    vx = 0 - vx;
+                }
+                if(tiles[y][j].power)
+                {
+                    powers.push({x: tiles[y][j].x+tileWidth-1, y: y});
+                }
+                tiles[y].splice(j, 1);
+                y-=2*vy;
+                vy=0-vy;
+                value = checkLevelPassed();
+                if(value == 1 )
+                {
+                    return;
+                }
+                break;
+            }
+        }
+    }
+    if(value == 0)
+    {
+        x+=vx;
     }
     if(tiles[y] != undefined)
     {
@@ -304,7 +348,6 @@ function game()
             }
         }
     }
-    x+=vx;
     if(powers.length > 0)
     {
         let spliced;
@@ -312,7 +355,7 @@ function game()
         {
             spliced=false;
             powers[i].y+=1/4;
-            if(powers[i].y == 37 && powers[i].x <= position + platformWidth + 0.5 && powers[i].x >= position - platformWidth - 0.5)
+            if(powers[i].y == 42 && powers[i].x <= position + platformWidth + 0.5 && powers[i].x >= position - platformWidth - 0.5)
             {
                 powers.splice(i, 1);
                 spliced=true;
@@ -320,7 +363,7 @@ function game()
                 clearTimeout(powerTimeout);
                 powerTimeout = setTimeout(endPower, 10000);
             }
-            if(!spliced && powers[i].y > 40)
+            if(!spliced && powers[i].y > 45)
             {
                 powers.splice(i, 1);
             }
@@ -330,7 +373,7 @@ function game()
     {
         if(powerCount==0)
         {
-            pewpew.push({x: position, y: 36});
+            pewpew.push({x: position, y: 41});
         }
         powerCount++;
         if(powerCount>=39)
@@ -391,14 +434,14 @@ function checkLevelPassed()
         {
             done = true;
             redraw();
-            return true;
+            return 1;
         }
         else
         {
             level++;
             position = 25;
             x = 25;
-            y = 36;
+            y = 41;
             vx = 1;
             vy = -1/2;
             powers = [];
@@ -407,9 +450,10 @@ function checkLevelPassed()
             everStarted = false;
             populateTiles();
             redraw();
-            return false;
+            return -1;
         }
     }
+    return 0;
 }
 function endGame()
 {
@@ -421,8 +465,9 @@ function endGame()
     clearInterval(interval);
     level = 0;
     score = 0;
+    position=25;
     x = 25;
-    y = 36;
+    y = 41;
     vx = 1;
     vy = -1/2;
 
@@ -441,10 +486,10 @@ function redraw()
     {
         context.fillStyle = "orangered";
     }
-    context.fillRect(width/50*position-platformWidth*width/50, height/40*37, width/50*(1+platformWidth*2), height/40); 
+    context.fillRect(width/50*position-platformWidth*width/50, height/45*42, width/50*(1+platformWidth*2), height/45); 
     context.fillStyle = "orangered";
     context.beginPath();
-    context.arc(width/50*(x+0.5), height/40*(y+0.5), height/60, 0, 2 * Math.PI);
+    context.arc(width/50*(x+0.5), height/45*(y+0.5), height/60, 0, 2 * Math.PI);
     context.fill();
     for(let i = 0; i<level/2+3; i++)
     {
@@ -454,7 +499,7 @@ function redraw()
             {
                 context.fillStyle = "orange"; 
             }
-            context.fillRect(width/50*(tiles[i*3][j].x-1), height/40*i*3, width/50*(1+tileWidth*2), height/40);
+            context.fillRect(width/50*(tiles[i*3][j].x-1), height/45*i*3, width/50*(1+tileWidth*2), height/45);
             if(tiles[i*3][j].power)
             {
                 context.fillStyle = "orangered";
@@ -467,7 +512,7 @@ function redraw()
         for(let i = 0; i<powers.length; i++)
         {
             context.beginPath();
-            context.arc(width/50*(powers[i].x+0.5), height/40*(powers[i].y+0.5), height/100, 0, 2 * Math.PI);
+            context.arc(width/50*(powers[i].x+0.5), height/45*(powers[i].y+0.5), height/100, 0, 2 * Math.PI);
             context.fill();
         }
         context.fillStyle = "orangered";
@@ -475,7 +520,7 @@ function redraw()
     for(let i = 0; i<pewpew.length; i++)
     {
         context.beginPath();
-        context.arc(width/50*(pewpew[i].x+0.5), height/40*(pewpew[i].y+0.5), height/100, 0, 2 * Math.PI);
+        context.arc(width/50*(pewpew[i].x+0.5), height/45*(pewpew[i].y+0.5), height/100, 0, 2 * Math.PI);
         context.fill();
     }
 }
