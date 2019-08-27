@@ -48,7 +48,7 @@ window.onload = function() {
         if(started && !cheat)
         {
             clearInterval(interval);
-            interval = setInterval(game, 17);
+            interval = setInterval(game, 1000/60);
         }
         if(started && cheat)
         {
@@ -77,7 +77,7 @@ function startGame()
     }
     else
     {
-        interval = setInterval(game, 16.6);
+        interval = setInterval(game, 1000/60);
     }
 }
 function startMouse()
@@ -214,16 +214,6 @@ function game()
         position = platformWidth;
     }
     y+=vy;
-    if(x <= 0)
-    {
-        x = 0;
-        vx = 0-vx;
-    }
-    if(x >= 49)
-    {
-        x = 49
-        vx = 0-vx;
-    }
     if(y == 42 && x <= position + platformWidth + 0.5 && x >= position - platformWidth - 0.5 && vy > 0)
     {
         vy = -1/2;
@@ -321,6 +311,16 @@ function game()
     if(value == 0)
     {
         x+=vx;
+        if(x <= 0)
+        {
+            x = 0;
+            vx = 0-vx;
+        }
+        if(x >= 49)
+        {
+            x = 49
+            vx = 0-vx;
+        }
     }
     if(tiles[y] != undefined)
     {
