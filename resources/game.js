@@ -34,6 +34,12 @@ window.onload = function() {
     scoreLabel = document.getElementById("score");
     canvas = document.getElementById("game");
     context = canvas.getContext("2d");
+    $(".collapse").on('show.bs.collapse', function(){
+        resizeNav(true);
+      });
+    $(".collapse").on('hidden.bs.collapse', function(){
+        resizeNav(false);
+    });
     window.addEventListener("resize", resize);
     window.addEventListener("keydown", changeDirection);
     window.addEventListener("keyup", stopMoving);
@@ -115,6 +121,12 @@ function resize()
     width = window.innerWidth;
     height = window.innerHeight - (width < 550 ? 125 : 105);
     canvas.width = width;
+    canvas.height = height;
+    redraw();
+}
+function resizeNav(open)
+{
+    height = window.innerHeight - (width < 550 ? 125 : 105) - (open ? 120 : 0);
     canvas.height = height;
     redraw();
 }
